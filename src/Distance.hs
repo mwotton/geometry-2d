@@ -14,6 +14,8 @@ class RelativeOps r where
   (=+=) :: Relative r => r -> r -> r
   (=*=) :: Relative r => r -> r -> Squared r
 
+  sq :: Relative r => r -> Squared r
+
 class AbsoluteOps a where
 
 class DimensionOps a r where
@@ -36,6 +38,9 @@ instance RelativeOps Rx where
 
   (=*=) :: Rx -> Rx -> Squared Rx
   (=*=) (Rx r0) (Rx r1) = Squared (Rx (r0 * r1))
+
+  sq :: Rx -> Squared Rx
+  sq r = r =*= r
 
 instance DimensionOps Ax Rx where
   (.+=) :: Ax -> Rx -> Ax
@@ -63,6 +68,9 @@ instance RelativeOps Ry where
   (=*=) :: Ry -> Ry -> Squared Ry
   (=*=) (Ry r0) (Ry r1) = Squared (Ry (r0 * r1))
 
+  sq :: Ry -> Squared Ry
+  sq r = r =*= r
+
 instance DimensionOps Ay Ry where
   (.+=) :: Ay -> Ry -> Ay
   (.+=) (Ay a) (Ry r) = Ay (a + r)
@@ -81,25 +89,40 @@ xSqAdd (Squared (Rx x2)) (Squared (Ry y2)) = Squared (Scalar (x2 + y2))
 
 newtype Length = Length Double deriving (Show, Eq)
 
-newtype Pt = Pt (Ax, Ay) deriving (Show)
+newtype Point = Point (Ax, Ay) deriving (Show)
 
-newtype Ln = Ln (Pt, Pt) deriving (Show)
+newtype Line = Line (Point, Point) deriving (Show)
 
 -- squared length of line
-lenSq :: Ln -> Squared Length
-lenSq (Ln ((Pt (x0, y0)), Pt (x1, y1))) =
-  Squared (Length magnitude)
-  where delX :: Rx
-        delX = x0 .-. x1
-        sqX :: Squared Rx
-        sqX = delX =*= delX
-
-        delY :: Ry
+lenSq :: Line -> Squared Length
+lenSq (Line ((Point (x0, y0)), Point (x1, y1))) = Squared (Length magnitude)
+  where delX = x0 .-. x1
         delY = y0 .-. y1
-        sqY :: Squared Ry
-        sqY = delY =*= delY
+        Squared (Scalar magnitude) = (sq delX) `xSqAdd` (sq delY)
 
-        dist :: Squared (Scalar Double)
-        dist = sqX `xSqAdd` sqY
 
-        Squared (Scalar magnitude) = dist
+
+newtype Radius = Radius Double deriving (Show)
+instance Relative Radius
+
+instance RelativeOps Radius where
+  (=+=) :: Radius -> Radius -> Radius
+  (=+=) (Radius r0) (Radius r1) = Radius (r0 + r1)
+
+  (=*=) :: Radius -> Radius -> Squared Radius
+  (=*=) (Radius r0) (Radius r1) = Squared (Radius (r0 * r1))
+
+  sq :: Radius -> Squared Radius
+  sq r = r =*= r
+
+newtype Circle = Circle (Point, Radius)
+
+circlesIntersect :: Circle -> Circle -> Bool
+circlesIntersect (Circle (p0, r0)) (Circle (p1, r1)) =
+  cpdSq < rSq
+  where Squared (Length cpdSq) = lenSq $ Line (p0, p1)
+        Squared (Radius rSq) = sq $ r0 =+= r1
+
+
+
+
