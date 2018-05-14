@@ -1,9 +1,16 @@
-module Main where
+module LineSpec where
 
 import Dimension
+import Point
+import Line
+
 import Test.Hspec
 
-main = hspec $ do
+main :: IO ()
+main = hspec spec
+
+spec :: Spec
+spec = do
   describe "line" $ do
     it "lenSq (squared length)" $ do
       let p0 = Point (Ax 1, Ay 2)

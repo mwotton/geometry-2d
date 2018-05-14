@@ -21,10 +21,13 @@ library
 
 test-suite test-dimension
   hs-source-dirs:      tests
-  main-is:             test.hs
+  main-is:             Spec.hs
   build-depends:       base >= 4.7 && < 5
                      , hspec
                      , geometry-2d
+  other-modules:       DimensionSpec
+                     , LineSpec
+                     , CircleSpec
   type:                exitcode-stdio-1.0
   default-language:    Haskell2010
 

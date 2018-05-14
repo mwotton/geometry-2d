@@ -1,9 +1,16 @@
-module Main where
+module CircleSpec where
 
 import Dimension
+import Point
+import Circle
+
 import Test.Hspec
 
-main = hspec $ do
+main :: IO ()
+main = hspec spec
+
+spec :: Spec
+spec = do
   describe "circle" $ do
     describe "circlesIntersect" $ do
       describe "overlaps" $ do
