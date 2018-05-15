@@ -19,6 +19,9 @@ main = hspec $ do
     it "sq (square)" $ do
       sq (Rx 3) `shouldBe` Squared (Rx 9)
 
+  it "Absolute Multiplication" $ do
+    Ax 2 .*. Ay 3 `shouldBe` Az 6
+
   describe "squared" $ do
     it "xSqAdd" $ do
       let x2 = Squared (Rx 2)
