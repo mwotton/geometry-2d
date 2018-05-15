@@ -17,6 +17,7 @@ spec = do
 
     it "subtract" $ do
       (Ax 4) .-. (Ax 3) `shouldBe` Rx 1
+      (Rx 5) =-= (Rx 3) `shouldBe` Rx 2
 
     it "multiply" $ do
       Rx 2 =*= Rx 3 `shouldBe` Squared (Rx 6)
@@ -24,8 +25,8 @@ spec = do
     it "sq (square)" $ do
       sq (Rx 3) `shouldBe` Squared (Rx 9)
 
-  it "Absolute Multiplication" $ do
-    Ax 2 .*. Ay 3 `shouldBe` Az 6
+  -- it "Absolute Multiplication" $ do
+  --   Ax 2 .*. Ay 3 `shouldBe` Az 6
 
   describe "squared" $ do
     it "xSqAdd" $ do

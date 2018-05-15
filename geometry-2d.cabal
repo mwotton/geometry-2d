@@ -30,6 +30,7 @@ test-suite test-dimension
   other-modules:       DimensionSpec
                      , PointSpec
                      , LineSpec
+                     , VectorSpec
                      , CircleSpec
                      , TriangleSpec
   type:                exitcode-stdio-1.0
