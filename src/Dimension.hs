@@ -16,7 +16,8 @@ class RelativeOps r where
 
   sq :: Relative r => r -> Squared r
 
-class AbsoluteOps a where
+class AbsoluteOps a b c where
+  (.*.) :: (Absolute a, Absolute b, Absolute c) => a -> b -> c
 
 class DimensionOps a r where
   (.+=) :: (Absolute a, Relative r) => a -> r -> a
@@ -54,7 +55,7 @@ instance DimensionOps Ax Rx where
 
 
 
--- absolute x
+-- absolute y
 newtype Ay = Ay Double deriving (Show, Eq)
 instance Absolute Ay
 
@@ -80,6 +81,17 @@ instance DimensionOps Ay Ry where
 
   (.-.) :: Ay -> Ay -> Ry
   (.-.) (Ay a0) (Ay a1) = Ry (a0 - a1)
+
+
+
+-- absolute x
+newtype Az = Az Double deriving (Show, Eq)
+instance Absolute Az
+
+
+instance AbsoluteOps Ax Ay Az where
+  (.*.) :: Ax -> Ay -> Az
+  (.*.) (Ax x) (Ay y) = Az (x * y)
 
 
 xSqAdd :: Squared Rx -> Squared Ry -> Squared (Scalar Double)

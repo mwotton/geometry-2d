@@ -15,6 +15,7 @@ library
   exposed-modules:     Dimension
                      , Point
                      , Line
+                     , Vector
                      , Circle
                      , Triangle
   build-depends:       base >= 4.7 && < 5
