@@ -12,20 +12,45 @@ main = hspec spec
 
 spec :: Spec
 spec = do
-  it "hi" $ do
-    1 `shouldBe` 1
-  -- describe "triangle contains point" $ do
-  --   it "point inside" $ do
-  --     let t = makeTriangle (pt 0 0) (pt 2 0) (pt 1 2)
-  --     let ip = pt 1 1
-  --     t `contains` ip `shouldBe` True
+  describe "triangle contains point" $ do
+    describe "ccw triangle with point" $ do
+      it "inside" $ do
+        let t = makeTriangle (pt 0 0) (pt 2 0) (pt 1 2)
+        let ip = pt 1 1
+        t `contains` ip `shouldBe` True
 
-  --   it "point outside" $ do
-  --     let t = makeTriangle (pt 0 0) (pt 2 0) (pt 1 2)
-  --     let ip = pt 2 2
-  --     t `contains` ip `shouldBe` False
+      it "outside" $ do
+        let t = makeTriangle (pt 0 0) (pt 2 0) (pt 1 2)
+        let ip = pt 2 2
+        t `contains` ip `shouldBe` False
 
-  --   it "point on edge" $ do
-  --     let t = makeTriangle (pt 0 0) (pt 2 0) (pt 1 2)
-  --     let ip = pt 1 2
-  --     t `contains` ip `shouldBe` True
+      it "on edge" $ do
+        let t = makeTriangle (pt 0 0) (pt 2 0) (pt 1 2)
+        let ip = pt 1 2
+        t `contains` ip `shouldBe` True
+
+      it "on corner" $ do
+        let t = makeTriangle (pt 0 0) (pt 2 0) (pt 1 2)
+        let ip = pt 0 0
+        t `contains` ip `shouldBe` True
+
+    describe "cw triangle with point" $ do
+      it "inside" $ do
+        let t = makeTriangle (pt 0 0) (pt 1 2) (pt 2 0)
+        let ip = pt 1 1
+        t `contains` ip `shouldBe` True
+
+      it "outside" $ do
+        let t = makeTriangle (pt 0 0) (pt 1 2) (pt 2 0)
+        let ip = pt 2 2
+        t `contains` ip `shouldBe` False
+
+      it "on edge" $ do
+        let t = makeTriangle (pt 0 0) (pt 1 2) (pt 2 0)
+        let ip = pt 1 2
+        t `contains` ip `shouldBe` True
+
+      it "on corner" $ do
+        let t = makeTriangle (pt 0 0) (pt 1 2) (pt 2 0)
+        let ip = pt 2 0
+        t `contains` ip `shouldBe` True
