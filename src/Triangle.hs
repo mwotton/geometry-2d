@@ -2,18 +2,23 @@ module Triangle where
 
 import Point
 import Line
+import Vector
 
 
 data Triangle = Triangle {
-    pts :: (Point, Point, Point)
-    -- area :: 
+    points :: (Point, Point, Point)
+    vectors :: (Vector, Vector, Vector)
   } deriving (Show, Eq)
 
 makeTriangle :: Point -> Point -> Point -> Triangle
-makeTriangle p0 p1 p2 = Triangle {pts=(p0, p1, p2)}
+makeTriangle p0 p1 p2 = Triangle {
+  points = (p0, p1, p2),
+  vectors = (diffPoints p0 p1, diffPoints p1 p2, diffPoints p2 p0),
+}
 
 contains :: Triangle -> Point -> Bool
-contains t p = undefined
+contains t p = 
+  where pts = points t
 
 
 
