@@ -1,5 +1,8 @@
 module Point where
 
-import Dimension (Ax, Ay)
+import Dimension
 
-newtype Point = Point (Ax, Ay) deriving (Show)
+newtype Point = Point (Ax, Ay) deriving (Show, Eq)
+
+pt :: Double -> Double -> Point
+pt x y = Point (Ax x, Ay y)

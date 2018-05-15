@@ -4,7 +4,7 @@ import Dimension
 import Point
 
 newtype Length = Length Double deriving (Show, Eq)
-newtype Line = Line (Point, Point) deriving (Show)
+newtype Line = Line (Point, Point) deriving (Show, Eq)
 
 -- squared length of line
 lenSq :: Line -> Squared Length
