@@ -13,9 +13,10 @@ cabal-version:         >=1.10
 library
   hs-source-dirs:      src
   exposed-modules:     Dimension
+                     , GeometryClasses
+                     , Vector
                      , Point
                      , Line
-                     , Vector
                      , Circle
                      , Triangle
   build-depends:       base >= 4.7 && < 5

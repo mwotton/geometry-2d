@@ -7,7 +7,7 @@ module Dimension where
 class Absolute a
 class Relative a
 
-newtype Scalar a = Scalar a deriving (Show, Eq)
+newtype Scalar = Scalar Double deriving (Show, Eq)
 newtype Squared a = Squared a deriving (Show, Eq)
 
 infixl 6 =+=
@@ -16,6 +16,7 @@ class RelativeOps r where
   (=+=) :: Relative r => r -> r -> r
   (=-=) :: Relative r => r -> r -> r
   (=*=) :: Relative r => r -> r -> Squared r
+  (=/=) :: Relative r => r -> r -> Scalar
 
   sq :: Relative r => r -> Squared r
 
@@ -48,6 +49,9 @@ instance RelativeOps Rx where
 
   (=*=) :: Rx -> Rx -> Squared Rx
   (=*=) (Rx r0) (Rx r1) = Squared (Rx (r0 * r1))
+
+  (=/=) :: Rx -> Rx -> Scalar
+  (=/=) (Rx r0) (Rx r1) = Scalar (r0 / r1)
 
   sq :: Rx -> Squared Rx
   sq r = r =*= r
@@ -82,6 +86,9 @@ instance RelativeOps Ry where
 
   (=*=) :: Ry -> Ry -> Squared Ry
   (=*=) (Ry r0) (Ry r1) = Squared (Ry (r0 * r1))
+
+  (=/=) :: Ry -> Ry -> Scalar
+  (=/=) (Ry r0) (Ry r1) = Scalar (r0 / r1)
 
   sq :: Ry -> Squared Ry
   sq r = r =*= r
@@ -118,6 +125,9 @@ instance RelativeOps Rz where
   (=*=) :: Rz -> Rz -> Squared Rz
   (=*=) (Rz r0) (Rz r1) = Squared (Rz (r0 * r1))
 
+  (=/=) :: Rz -> Rz -> Scalar
+  (=/=) (Rz r0) (Rz r1) = Scalar (r0 / r1)
+
   sq :: Rz -> Squared Rz
   sq r = r =*= r
 
@@ -140,7 +150,7 @@ infixl 7 =**=
 (=**=) (Rx x) (Ry y) = Rz (x * y)
 
 
-xSqAdd :: Squared Rx -> Squared Ry -> Squared (Scalar Double)
+xSqAdd :: Squared Rx -> Squared Ry -> Squared Scalar
 xSqAdd (Squared (Rx x2)) (Squared (Ry y2)) = Squared (Scalar (x2 + y2))
 
 
@@ -158,6 +168,9 @@ instance RelativeOps Radius where
 
   (=*=) :: Radius -> Radius -> Squared Radius
   (=*=) (Radius r0) (Radius r1) = Squared (Radius (r0 * r1))
+
+  (=/=) :: Radius -> Radius -> Scalar
+  (=/=) (Radius r0) (Radius r1) = Scalar (r0 / r1)
 
   sq :: Radius -> Squared Radius
   sq r = r =*= r
