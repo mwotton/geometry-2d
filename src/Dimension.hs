@@ -3,12 +3,40 @@
 
 module Dimension where
 
+import GeometryClasses
+
 
 class Absolute a
 class Relative a
 
 newtype Scalar = Scalar Double deriving (Show, Eq)
 newtype Squared a = Squared a deriving (Show, Eq)
+
+
+newtype Range a = Range (a, a) deriving (Show, Eq)
+
+newRange :: (Absolute a, AbsoluteOps a) => a -> a -> Range a
+newRange r0 r1 = if r0 .<. r1
+                 then Range (r0, r1)
+                 else Range (r1, r0)
+
+inRange :: (Absolute a, AbsoluteOps a) => Range a -> a -> Bool
+inRange (Range (l, u)) v = v .>=. l && v .<=. u
+
+
+instance (Absolute a, AbsoluteOps a) => Geom (Range a) where
+  intersects :: Range a -> Range a -> Bool
+  intersects r0@(Range (l0, u0)) r1@(Range (l1, u1)) =
+    inRange r0 l1 || inRange r0 u1 || inRange r1 l0 || inRange r1 u0
+
+  parallel = undefined
+
+class AbsoluteOps a where
+  (.<.) :: Absolute a => a -> a -> Bool
+  (.>.) :: Absolute a => a -> a -> Bool
+  (.<=.) :: Absolute a => a -> a -> Bool
+  (.>=.) :: Absolute a => a -> a -> Bool
+
 
 infixl 6 =+=
 infixl 7 =*=
@@ -36,6 +64,20 @@ class DimensionOps a r where
 -- absolute x
 newtype Ax = Ax Double deriving (Show, Eq)
 instance Absolute Ax
+
+instance AbsoluteOps Ax where
+  (.<.) :: Ax -> Ax -> Bool
+  (.<.) (Ax a0) (Ax a1) = a0 < a1
+
+  (.>.) :: Ax -> Ax -> Bool
+  (.>.) (Ax a0) (Ax a1) = a0 > a1
+
+  (.<=.) :: Ax -> Ax -> Bool
+  (.<=.) (Ax a0) (Ax a1) = a0 <= a1
+
+  (.>=.) :: Ax -> Ax -> Bool
+  (.>=.) (Ax a0) (Ax a1) = a0 >= a1
+
 
 -- relative x
 newtype Rx = Rx Double deriving (Show, Eq)
@@ -73,6 +115,20 @@ instance DimensionOps Ax Rx where
 -- absolute y
 newtype Ay = Ay Double deriving (Show, Eq)
 instance Absolute Ay
+
+instance AbsoluteOps Ay where
+  (.<.) :: Ay -> Ay -> Bool
+  (.<.) (Ay a0) (Ay a1) = a0 < a1
+
+  (.>.) :: Ay -> Ay -> Bool
+  (.>.) (Ay a0) (Ay a1) = a0 > a1
+
+  (.<=.) :: Ay -> Ay -> Bool
+  (.<=.) (Ay a0) (Ay a1) = a0 <= a1
+
+  (.>=.) :: Ay -> Ay -> Bool
+  (.>=.) (Ay a0) (Ay a1) = a0 >= a1
+
 
 -- relative y
 newtype Ry = Ry Double deriving (Show, Eq)
