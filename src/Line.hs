@@ -46,3 +46,5 @@ lenSq (Line ((Point (x0, y0)), Point (x1, y1))) = Squared (Length magnitude)
 l2v :: Line -> Vector
 l2v (Line (p0, p1)) = p0 .->. p1
 
+(..-) :: Point -> Point -> Line
+(..-) p0 p1 = Line (p0, p1)

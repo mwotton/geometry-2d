@@ -1,5 +1,8 @@
+{-# LANGUAGE InstanceSigs #-}
+
 module Triangle where
 
+import GeometryClasses
 import Point
 import Line
 import Vector
@@ -46,5 +49,18 @@ contains t p = if as
         cs = isNeg (ca `x` cp)
 
 
--- intersects :: Triangle -> Triangle -> Bool
--- intersects 
+edges :: Triangle -> [Line]
+edges t = [p0 ..- p1, p1 ..- p2, p2 ..- p0]
+          where (p0, p1, p2) = points t
+
+
+instance Geom Triangle where
+  intersects :: Triangle -> Triangle -> Bool
+  intersects t0 t1 = crosses || contained
+    where crosses = any id [e0 `intersects` e1 | e0 <- edges t0, e1 <- edges t1]
+          contained = containsOther t0 t1 || containsOther t1 t0
+          containsOther t0 t1 = t0 `contains` (fst3 (points t1))
+
+          fst3 (x,_,_) = x
+
+  parallel = undefined
