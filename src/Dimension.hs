@@ -4,60 +4,7 @@
 module Dimension where
 
 import GeometryClasses
-
-
-class Absolute a
-class Relative a
-
-newtype Scalar = Scalar Double deriving (Show, Eq)
-newtype Squared a = Squared a deriving (Show, Eq)
-
-
-newtype Range a = Range (a, a) deriving (Show, Eq)
-
-newRange :: (Absolute a, AbsoluteOps a) => a -> a -> Range a
-newRange r0 r1 = if r0 .<. r1
-                 then Range (r0, r1)
-                 else Range (r1, r0)
-
-inRange :: (Absolute a, AbsoluteOps a) => Range a -> a -> Bool
-inRange (Range (l, u)) v = v .>=. l && v .<=. u
-
-
-instance (Absolute a, AbsoluteOps a) => Geom (Range a) where
-  intersects :: Range a -> Range a -> Bool
-  intersects r0@(Range (l0, u0)) r1@(Range (l1, u1)) =
-    inRange r0 l1 || inRange r0 u1 || inRange r1 l0 || inRange r1 u0
-
-  parallel = undefined
-
-class AbsoluteOps a where
-  (.<.) :: Absolute a => a -> a -> Bool
-  (.>.) :: Absolute a => a -> a -> Bool
-  (.<=.) :: Absolute a => a -> a -> Bool
-  (.>=.) :: Absolute a => a -> a -> Bool
-
-
-infixl 6 =+=
-infixl 7 =*=
-class RelativeOps r where
-  (=+=) :: Relative r => r -> r -> r
-  (=-=) :: Relative r => r -> r -> r
-  (=*=) :: Relative r => r -> r -> Squared r
-  (=/=) :: Relative r => r -> r -> Scalar
-
-  sq :: Relative r => r -> Squared r
-
-
-infixl 6 .+=
-infixl 6 =+.
-infixl 6 .-.
-class DimensionOps a r where
-  (.+=) :: (Absolute a, Relative r) => a -> r -> a
-  (=+.) :: (Absolute a, Relative r) => r -> a -> a
-  (.-.) :: (Absolute a, Relative r) => a -> a -> r
-
-  _toAbsolute :: (Absolute a, Relative r) => r -> a
+import Range
 
 
 
@@ -65,18 +12,21 @@ class DimensionOps a r where
 newtype Ax = Ax Double deriving (Show, Eq)
 instance Absolute Ax
 
-instance AbsoluteOps Ax where
-  (.<.) :: Ax -> Ax -> Bool
-  (.<.) (Ax a0) (Ax a1) = a0 < a1
+-- instance AbsoluteOps Ax where
+--   (.<.) :: Ax -> Ax -> Bool
+--   (.<.) (Ax a0) (Ax a1) = a0 < a1
 
-  (.>.) :: Ax -> Ax -> Bool
-  (.>.) (Ax a0) (Ax a1) = a0 > a1
+--   (.>.) :: Ax -> Ax -> Bool
+--   (.>.) (Ax a0) (Ax a1) = a0 > a1
 
-  (.<=.) :: Ax -> Ax -> Bool
-  (.<=.) (Ax a0) (Ax a1) = a0 <= a1
+--   (.<=.) :: Ax -> Ax -> Bool
+--   (.<=.) (Ax a0) (Ax a1) = a0 <= a1
 
-  (.>=.) :: Ax -> Ax -> Bool
-  (.>=.) (Ax a0) (Ax a1) = a0 >= a1
+--   (.>=.) :: Ax -> Ax -> Bool
+--   (.>=.) (Ax a0) (Ax a1) = a0 >= a1
+
+instance Ord Ax where
+  (<=) (Ax v0) (Ax v1) = v0 <= v1
 
 
 -- relative x
@@ -111,23 +61,29 @@ instance DimensionOps Ax Rx where
   _toAbsolute :: Rx -> Ax
   _toAbsolute (Rx v) = Ax v
 
+  _toRelative :: Ax -> Rx
+  _toRelative (Ax v) = Rx v
+
 
 -- absolute y
 newtype Ay = Ay Double deriving (Show, Eq)
 instance Absolute Ay
 
-instance AbsoluteOps Ay where
-  (.<.) :: Ay -> Ay -> Bool
-  (.<.) (Ay a0) (Ay a1) = a0 < a1
+-- instance AbsoluteOps Ay where
+--   (.<.) :: Ay -> Ay -> Bool
+--   (.<.) (Ay a0) (Ay a1) = a0 < a1
 
-  (.>.) :: Ay -> Ay -> Bool
-  (.>.) (Ay a0) (Ay a1) = a0 > a1
+--   (.>.) :: Ay -> Ay -> Bool
+--   (.>.) (Ay a0) (Ay a1) = a0 > a1
 
-  (.<=.) :: Ay -> Ay -> Bool
-  (.<=.) (Ay a0) (Ay a1) = a0 <= a1
+--   (.<=.) :: Ay -> Ay -> Bool
+--   (.<=.) (Ay a0) (Ay a1) = a0 <= a1
 
-  (.>=.) :: Ay -> Ay -> Bool
-  (.>=.) (Ay a0) (Ay a1) = a0 >= a1
+--   (.>=.) :: Ay -> Ay -> Bool
+--   (.>=.) (Ay a0) (Ay a1) = a0 >= a1
+
+instance Ord Ay where
+  (<=) (Ay v0) (Ay v1) = v0 <= v1
 
 
 -- relative y
@@ -161,6 +117,9 @@ instance DimensionOps Ay Ry where
 
   _toAbsolute :: Ry -> Ay
   _toAbsolute (Ry v) = Ay v
+
+  _toRelative :: Ay -> Ry
+  _toRelative (Ay v) = Ry v
 
 
 -- absolute z

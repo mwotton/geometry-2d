@@ -1,5 +1,6 @@
 module Circle where
 
+import GeometryClasses
 import Dimension
 import Point
 import Line

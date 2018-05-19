@@ -36,6 +36,8 @@ instance Geom Line where
   parallel :: Line -> Line -> Bool
   parallel l0 l1 = (l2v l0) `x` (l2v l1) == Rz 0
 
+  area = undefined
+
 -- squared length of line
 lenSq :: Line -> Squared Length
 lenSq (Line ((Point (x0, y0)), Point (x1, y1))) = Squared (Length magnitude)

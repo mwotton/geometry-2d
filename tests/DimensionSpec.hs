@@ -1,6 +1,7 @@
 module DimensionSpec where
 
 import GeometryClasses
+import Range
 import Dimension
 
 import Test.Hspec

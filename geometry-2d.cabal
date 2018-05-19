@@ -14,16 +14,18 @@ library
   hs-source-dirs:      src
   exposed-modules:     Dimension
                      , GeometryClasses
+                     , Range
                      , Vector
                      , Point
                      , Line
                      , Circle
                      , Triangle
                      , Rectangle
+                     , Polygon
   build-depends:       base >= 4.7 && < 5
   default-language:    Haskell2010
 
-test-suite test-dimension
+test-suite tests
   hs-source-dirs:      tests
   main-is:             Spec.hs
   build-depends:       base >= 4.7 && < 5
@@ -36,6 +38,7 @@ test-suite test-dimension
                      , CircleSpec
                      , TriangleSpec
                      , RectangleSpec
+                     , PolygonSpec
   type:                exitcode-stdio-1.0
   default-language:    Haskell2010
 

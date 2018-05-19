@@ -3,9 +3,10 @@
 module Triangle where
 
 import GeometryClasses
+import Vector
 import Point
 import Line
-import Vector
+import Rectangle
 
 
 data Triangle = Triangle {
@@ -62,5 +63,10 @@ instance Geom Triangle where
           containsOther t0 t1 = t0 `contains` (fst3 (points t1))
 
           fst3 (x,_,_) = x
+
+  -- area :: Triangle -> Area
+  -- area t = 
+  --   where mbb = 
+  area = undefined
 
   parallel = undefined
