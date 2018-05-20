@@ -29,3 +29,5 @@ instance Geom Vector where
 
   parallel :: Vector -> Vector -> Bool
   parallel v0 v1 = v0 `x` v1 == Rz 0
+
+  area = undefined

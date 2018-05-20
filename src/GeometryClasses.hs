@@ -9,13 +9,6 @@ newtype Scalar = Scalar Double deriving (Show, Eq)
 newtype Squared a = Squared a deriving (Show, Eq)
 
 
-class AbsoluteOps a where
-  (.<.) :: Absolute a => a -> a -> Bool
-  (.>.) :: Absolute a => a -> a -> Bool
-  (.<=.) :: Absolute a => a -> a -> Bool
-  (.>=.) :: Absolute a => a -> a -> Bool
-
-
 infixl 6 =+=
 infixl 7 =*=
 class RelativeOps r where

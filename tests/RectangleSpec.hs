@@ -48,6 +48,6 @@ spec = do
               rectangle `intersects` rectangle2 `shouldBe` result
               rectangle2 `intersects` rectangle `shouldBe` result
 
+  it "mbb (minimum bounding box)" $ do
+    mbb [pt 1 1, pt 2 2, pt 3 1, pt 0 1] `shouldBe` Rect2P (pt 0 1, pt 3 2)
 
-  -- it "mbb (minimum bounding box)" $ do
-  --   mbb [pt 1 1, pt 2 2, pt 3 1, pt 0 1] `shouldBe` Rect2P (pt 0 1, pt 3 2)

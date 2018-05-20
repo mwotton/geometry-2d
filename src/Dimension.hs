@@ -12,19 +12,6 @@ import Range
 newtype Ax = Ax Double deriving (Show, Eq)
 instance Absolute Ax
 
--- instance AbsoluteOps Ax where
---   (.<.) :: Ax -> Ax -> Bool
---   (.<.) (Ax a0) (Ax a1) = a0 < a1
-
---   (.>.) :: Ax -> Ax -> Bool
---   (.>.) (Ax a0) (Ax a1) = a0 > a1
-
---   (.<=.) :: Ax -> Ax -> Bool
---   (.<=.) (Ax a0) (Ax a1) = a0 <= a1
-
---   (.>=.) :: Ax -> Ax -> Bool
---   (.>=.) (Ax a0) (Ax a1) = a0 >= a1
-
 instance Ord Ax where
   (<=) (Ax v0) (Ax v1) = v0 <= v1
 
@@ -68,19 +55,6 @@ instance DimensionOps Ax Rx where
 -- absolute y
 newtype Ay = Ay Double deriving (Show, Eq)
 instance Absolute Ay
-
--- instance AbsoluteOps Ay where
---   (.<.) :: Ay -> Ay -> Bool
---   (.<.) (Ay a0) (Ay a1) = a0 < a1
-
---   (.>.) :: Ay -> Ay -> Bool
---   (.>.) (Ay a0) (Ay a1) = a0 > a1
-
---   (.<=.) :: Ay -> Ay -> Bool
---   (.<=.) (Ay a0) (Ay a1) = a0 <= a1
-
---   (.>=.) :: Ay -> Ay -> Bool
---   (.>=.) (Ay a0) (Ay a1) = a0 >= a1
 
 instance Ord Ay where
   (<=) (Ay v0) (Ay v1) = v0 <= v1
