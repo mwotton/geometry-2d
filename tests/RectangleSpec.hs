@@ -1,11 +1,11 @@
 module RectangleSpec where
 
-import GeometryClasses
-import Vector
-import Point
-import Rectangle
+import           GeometryClasses
+import           Point
+import           Rectangle
+import           Vector
 
-import Test.Hspec
+import           Test.Hspec
 
 
 main :: IO ()
@@ -20,7 +20,12 @@ spec = do
 
   describe "Rect2P" $ do
     describe "intersects" $ do
-      let cases = [True, False]
+
+      let test (testName, rectangle, result) = it testName $ do
+            let rectangle2 = Rect2P (pt 1 1, pt 4 4)
+            rectangle `intersects` rectangle2 `shouldBe` result
+            rectangle2 `intersects` rectangle `shouldBe` result
+
       mapM_ test [
           ( "corner intesect"
           , Rect2P (pt 0 0, pt 1 1)
@@ -43,11 +48,6 @@ spec = do
           , False
           )
         ]
-      where test (testName, rectangle, result) = it testName $ do
-              let rectangle2 = Rect2P (pt 1 1, pt 4 4)
-              rectangle `intersects` rectangle2 `shouldBe` result
-              rectangle2 `intersects` rectangle `shouldBe` result
 
-  it "mbb (minimum bounding box)" $ do
-    mbb [pt 1 1, pt 2 2, pt 3 1, pt 0 1] `shouldBe` Rect2P (pt 0 1, pt 3 2)
-
+      it "mbb (minimum bounding box)" $ do
+        mbb [pt 1 1, pt 2 2, pt 3 1, pt 0 1] `shouldBe` Rect2P (pt 0 1, pt 3 2)
